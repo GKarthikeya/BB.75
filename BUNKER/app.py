@@ -1,0 +1,63 @@
+from flask import Flask, request, render_template
+import math
+from datetime import datetime
+import os
+
+app = Flask(__name__)
+
+SEMESTER_TOTAL_CLASSES = 510
+
+TIMETABLE = {
+    "Monday": 6, "Tuesday": 6, "Wednesday": 6,
+    "Thursday": 5, "Friday": 5, "Saturday": 6, "Sunday": 0
+}
+
+@app.route("/")
+def home():
+    return render_template("form.html")
+
+@app.route("/select_date", methods=["POST"])
+def select_date():
+    present = int(request.form["present"])
+    absent = int(request.form["absent"])
+    return render_template("date.html", present=present, absent=absent)
+
+@app.route("/bunk_option", methods=["POST"])
+def bunk_option():
+    present = int(request.form["present"])
+    absent = int(request.form["absent"])
+    date = request.form["date"]
+    option = request.form["option"]
+    weekday = datetime.strptime(date, "%Y-%m-%d").strftime("%A")
+    if option == "whole":
+        bunk_k = TIMETABLE.get(weekday, 0)
+        return compute_and_render_result(date, present, absent, bunk_k)
+    else:
+        periods = TIMETABLE.get(weekday, 0)
+        return render_template("period.html", date=date, present=present, absent=absent, periods=periods)
+
+@app.route("/result", methods=["POST"])
+def show_periods_or_result():
+    present = int(request.form["present"])
+    absent = int(request.form["absent"])
+    date = request.form["date"]
+    selected_periods = request.form.getlist("periods")
+    bunk_k = len(selected_periods)
+    return compute_and_render_result(date, present, absent, bunk_k)
+
+def compute_and_render_result(date, present, absent, bunk_k):
+    total_done = present + absent + bunk_k
+    total_classes = SEMESTER_TOTAL_CLASSES
+    remaining = total_classes - total_done
+    final_present = present + remaining
+    final_percent = (final_present / total_classes) * 100
+    required_present = math.ceil(0.75 * total_classes)
+    safe_bunks = final_present - required_present
+    allowed = final_percent >= 75
+    return render_template("result.html", date=date, total_classes=total_classes,
+                           present=present, absent=absent + bunk_k, final_percent=float(final_percent),
+                           allowed=allowed, safe_bunks=safe_bunks)
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
