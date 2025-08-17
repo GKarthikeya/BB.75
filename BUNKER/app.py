@@ -58,6 +58,6 @@ def compute_and_render_result(date, present, absent, bunk_k):
                            present=present, absent=absent + bunk_k, final_percent=float(final_percent),
                            allowed=allowed, safe_bunks=safe_bunks)
 
-if __name__ == "__main__":
+if __name__ == "__app__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
