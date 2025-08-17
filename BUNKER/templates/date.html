@@ -5,69 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Select Date</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f9fb;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    .container {
-      background-color: #ffffff;
-      padding: 20px 25px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      width: 90%;
-      max-width: 400px;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-      font-size: 1.2rem;
-    }
-
-    form label {
-      display: block;
-      margin: 10px 0 5px 0;
-      font-size: 1rem;
-    }
-
-    form input[type="date"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-
-    form input[type="radio"] {
-      margin-right: 10px;
-      transform: scale(1.2);
-      cursor: pointer;
-    }
-
-    form button {
-      width: 100%;
-      padding: 12px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    form button:hover {
-      background-color: #45a049;
-    }
+    body { font-family: Arial; background:#f4f9fb; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
+    .container { background:white; padding:20px; border-radius:10px; box-shadow:0 4px 6px rgba(0,0,0,0.1); width:90%; max-width:400px; }
+    h2 { text-align:center; margin-bottom:20px; }
+    input[type="date"], button { width:100%; padding:10px; margin:10px 0; border-radius:5px; border:1px solid #ccc; box-sizing:border-box; }
+    input[type="radio"] { margin-right:10px; transform:scale(1.2); cursor:pointer; }
+    button { background:#4CAF50; color:white; border:none; font-size:16px; cursor:pointer; }
+    button:hover { background:#45a049; }
   </style>
 </head>
 <body>
@@ -80,12 +24,8 @@
       <label for="date">Pick a date:</label>
       <input type="date" name="date" required>
       
-      <label>
-        <input type="radio" name="option" value="whole" required> Whole Day
-      </label>
-      <label>
-        <input type="radio" name="option" value="period"> Specific Periods
-      </label>
+      <label><input type="radio" name="option" value="whole" required> Whole Day</label>
+      <label><input type="radio" name="option" value="period"> Specific Periods</label>
       
       <button type="submit">Next</button>
     </form>
